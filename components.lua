@@ -14,19 +14,9 @@ end
 function kuto.component.button2(name, def)
     local formspec = {
         type = "container",
+        name = def.cname,
         x = def.pos[1],
         y = def.pos[2],
-        {
-            type = "style",
-            selectors = {name},
-            props = {
-                border = false,
-                --luk3yx claims no escaping is fine, if this breaks, blame him
-                bgimg = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff70",
-                bgimg_hovered = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff90",
-                bgimg_middle = "4,4",
-            }
-        },
         {
             type = "button",
             x = 0,
@@ -35,6 +25,14 @@ function kuto.component.button2(name, def)
             h = def.size[2],
             name = name,
             label = def.label,
+            on_event = def.on_event,
+            props = {
+                border = false,
+                --luk3yx claims no escaping is fine, if this breaks, blame him
+                bgimg = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff70",
+                bgimg_hovered = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff90",
+                bgimg_middle = "4,4",
+            }
         }
     }
 
@@ -69,29 +67,3 @@ function kuto.strip(fs_table, element)
         end
     end
 end
-
---[[
-function kuto.component.dialog(name, def)
-    --dialog size and form size
-    local ds = {6,4}
-    local fs = def.form_size
-    local pos = {(fs[1]-ds[1])/2, (fs[2]-ds[2])/2}
-
-    local title = string.sub(def.title,1,15)
-    local content = string.sub(def.content,1,110)
-    local formspec = {
-        "",
-        "container["..pos[1]..","..pos[2].."]",
-        "image[0,0;"..ds[1]..","..ds[2]..";[combine:16x16^\\[noalpha\\^[colorize:#ffffff]",
-        "hypertext[0.4,0.4;3.9,0.5;"..def.title_name..";<style size=20 color=blue><b>"..title.."</b></style>]",
-        "hypertext[0.8,1.3;4.5,1.2;"..def.content_name..";<style color=black><normal>"..content.."</normal></style>]",
-        --"button[]",
-
-        "container_end[]",
-    }
-
-    if def.enable_blank then formspec[1] = "image[0,0;100,100;[combine:16x16^\\[noalpha\\^[colorize:#ffffff90]" end
-
-    return table.concat(formspec, "")
-end
---]]

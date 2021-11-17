@@ -13,13 +13,6 @@ ccf.legacy = function(name, param)
             size = {2.3, 0.9},
             label = "kb_name",
         }),
-        --[[
-        kuto.button("kuto_dialog_button", {
-            pos = {4, 1},
-            size = {2.3, 0.9},
-            label = "show dialog",
-        }),
-        --]]
         kuto.component.card("kuto_card", {
             pos = {1, 3},
             image = "kuto_card_demo.png",
@@ -52,8 +45,14 @@ ccf.astt = function(name, param)
             pos = {1, 3},
             size = {2.3, 0.9},
             label = "kb_name",
-        }),
+            cname = "kb_cname",
+            on_event = function(form, player, element)
+                local cindex = kuto.get_index_by_name(form, "kb_cname")
+                form[cindex] = {type = "label", x=1, y=3, label = "test button label"}
 
+                return form
+            end
+        }),
 
     }
 
@@ -74,22 +73,4 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     --debug
     minetest.chat_send_player(player:get_player_name(), dump(fields))
-
-    --functional
-    --[[
-    if fields.kuto_dialog_button then
-        local form = table.copy(formspec)
-        local dialog = kuto.component.dialog("kuto_dialog", {
-            enable_blank = true,
-            form_size = {10,10},
-            title_name = "title_name",
-            title = "test dialog",
-            content_name = "content_name",
-            content = "this is a test content message lets see how stuff spaces out, etc, who knows,
-                 maybe this will work out, maybe not, yada, yada",
-        })
-        table.insert(form, dialog)
-        minetest.show_formspec(player:get_player_name(), formname, table.concat(form, ""))
-    end
-    --]]
 end)
