@@ -55,15 +55,3 @@ function kuto.component.card(name, def)
     }
     return table.concat(formspec, "")
 end
-
-function kuto.strip(fs_table, element)
-    for key, snippet in pairs(fs_table) do
-        if string.find(snippet, element) then
-            local split = snippet:split("]")
-            for skey, item in pairs(split) do
-                if string.find(item, element) then split[skey] = "" end
-            end
-            fs_table[key] = table.concat(split, "]").."]"
-        end
-    end
-end
