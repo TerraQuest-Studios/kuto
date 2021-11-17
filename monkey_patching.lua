@@ -19,9 +19,8 @@ local function insert_styles(form, styles)
     local fs = {}
 
     for key, val in pairs(form) do
-        if type(val) == "string" then
-            table.insert(fs, val)
-            cindex = key
+        if type(val) == "number" and not tonumber(key) then
+            fs[key] = val
         elseif type(val) == "table" and val.type and headers[val.type] then
             table.insert(fs, val)
             cindex = key

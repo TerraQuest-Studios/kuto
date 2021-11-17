@@ -53,8 +53,18 @@ ccf.astt = function(name, param)
                 return form
             end
         }),
+        kuto.component.card2("kuto_card", {
+            pos = {1, 4},
+            image = "kuto_card_demo.png",
+            title_name = "title_name",
+            title = "test 123 this is a test to see how long this goes on for",
+            content_name = "content_name",
+            content = "test message to see how well the hypertext element line wraps bla bla",
+            label = "kb_name",
+        }),
 
     }
+
 
     minetest.show_formspec(name, "kuto:test", formspec)
 end
