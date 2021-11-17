@@ -7,7 +7,7 @@ globals = {
     "minetest", "core",
 
     --mod provided
-
+    "kuto",
 }
 
 read_globals = {
@@ -21,5 +21,4 @@ read_globals = {
     "vector", "ItemStack", "dump", "DIR_DELIM", "VoxelArea", "Settings", "PcgRandom", "VoxelManip", "PseudoRandom",
 
     --mod produced
-    "kuto",
 }
