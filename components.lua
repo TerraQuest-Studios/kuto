@@ -11,6 +11,36 @@ function kuto.component.button(name, def)
     return table.concat(formspec, "")
 end
 
+function kuto.component.button2(name, def)
+    local formspec = {
+        type = "container",
+        x = def.pos[1],
+        y = def.pos[2],
+        {
+            type = "style",
+            selectors = {name},
+            props = {
+                border = false,
+                --luk3yx claims no escaping is fine, if this breaks, blame him
+                bgimg = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff70",
+                bgimg_hovered = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff90",
+                bgimg_middle = "4,4",
+            }
+        },
+        {
+            type = "button",
+            x = 0,
+            y = 0,
+            w = def.size[1],
+            h = def.size[2],
+            name = name,
+            label = def.label,
+        }
+    }
+
+    return formspec
+end
+
 function kuto.component.card(name, def)
     local title = string.sub(def.title,1,24)
     local content = string.sub(def.content,1,60)
