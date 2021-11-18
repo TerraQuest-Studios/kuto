@@ -103,7 +103,13 @@ end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
     local pname = player:get_player_name()
-    if not kuto.registered_astk[pname] or kuto.registered_inventory_astk[pname] then return end
+    if not kuto.registered_astk[pname] then
+        if not kuto.registered_inventory_astk[pname] then
+            return
+        elseif formname ~= "" then
+            return
+        end
+    end
 
     if fields.quit then kuto.registered_astk[player:get_player_name()] = nil return end
 
