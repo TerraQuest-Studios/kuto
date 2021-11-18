@@ -1,4 +1,5 @@
-kuto.registered_ast = {}
+kuto.registered_astk = {}
+kuto.registered_inventory_astk = {}
 
 kuto.get_element_by_name = formspec_ast.get_element_by_name
 
@@ -74,24 +75,60 @@ function minetest.show_formspec(player, formname, fs)
     end
     if type(fs) == "table" then
         formspec = formspec_ast.unparse(kuto.convert_to_ast(fs))
-        kuto.registered_ast[formname] = fs
+        kuto.registered_astk[playername] = fs
     end
 
     old_sf(playername, formname, formspec)
 end
 
-minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if not kuto.registered_ast[formname] then return end
+local old_sif
+local function new_sif(self, formspec, ...)
+    if type(formspec) == "table" then
+        --do stuff
+        kuto.registered_inventory_astk[self:get_player_name()] = formspec
+        local fs = formspec_ast.unparse(kuto.convert_to_ast(formspec))
 
-    if fields.quit then kuto.registered_ast[formname] = nil return end
+        return old_sif(self, fs, ...)
+    else
+        return old_sif(self, formspec, ...)
+    end
+end
+
+minetest.register_on_joinplayer(function(player, last_login)
+    if old_sif == nil then
+        local pmt = getmetatable(player)
+        old_sif = pmt.set_inventory_formspec
+        pmt.set_inventory_formspec = new_sif
+
+        --run current player through just in case something happened
+        player:set_inventory_formspec(player:get_inventory_formspec())
+    end
+end)
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+    local pname = player:get_player_name()
+    if not kuto.registered_astk[pname] or kuto.registered_inventory_astk[pname] then return end
+
+    if fields.quit then kuto.registered_astk[player:get_player_name()] = nil return end
 
     local keys = {}
     for key, val in pairs(fields) do table.insert(keys, key) end
 
-    local element = kuto.get_element_by_name(kuto.registered_ast[formname], keys[1])
+    local element
+    if formname ~= "" then
+        element = kuto.get_element_by_name(kuto.registered_astk[pname], keys[1])
+    else
+        element = kuto.get_element_by_name(kuto.registered_inventory_astk[pname], keys[1])
+    end
+
     if element and element.on_event then
         --on_event(form, player, element)
-        local form = element.on_event(kuto.registered_ast[formname], player, element)
+        local form
+        if formname ~= "" then
+            form = element.on_event(kuto.registered_astk[pname], player, element)
+        else
+            form = element.on_event(kuto.registered_inventory_astk[pname], player, element)
+        end
         if form then minetest.show_formspec(player, formname, form) end
     end
 end)

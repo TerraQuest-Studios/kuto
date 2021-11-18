@@ -4,29 +4,6 @@ ccf.default = function(name, param)
     return false, minetest.colorize("red", "[kuto]: fallback function triggered")
 end
 
-ccf.legacy = function(name, param)
-    local formspec = {
-        "formspec_version[4]",
-        "size[10,10]",
-        kuto.component.button("kuto_button", {
-            pos = {1, 1},
-            size = {2.3, 0.9},
-            label = "kb_name",
-        }),
-        kuto.component.card("kuto_card", {
-            pos = {1, 3},
-            image = "kuto_card_demo.png",
-            title_name = "title_name",
-            title = "test 123 this is a test to see how long this goes on for",
-            content_name = "content_name",
-            content = "test message to see how well the hypertext element line wraps bla bla",
-            label = "kb_name",
-        }),
-    }
-
-    minetest.show_formspec(name, "kuto:test", table.concat(formspec, ""))
-end
-
 ccf.astt = function(name, param)
     local formspec = {
         formspec_version = 4,
@@ -41,7 +18,7 @@ ccf.astt = function(name, param)
             y = 1,
             label = "test label",
         },
-        kuto.component.button2("kuto_button", {
+        kuto.component.button("kuto_button", {
             pos = {1, 3},
             size = {2.3, 0.9},
             label = "kb_name",
@@ -53,7 +30,7 @@ ccf.astt = function(name, param)
                 return form
             end
         }),
-        kuto.component.card2("kuto_card", {
+        kuto.component.card("kuto_card", {
             pos = {1, 4},
             image = "kuto_card_demo.png",
             title_name = "title_name",
