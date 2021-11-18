@@ -21,10 +21,10 @@ ccf.astt = function(name, param)
         kuto.component.button("kuto_button", {
             pos = {1, 3},
             size = {2.3, 0.9},
-            label = "kb_name",
-            cname = "kb_cname",
+            btn_text = "kb_name",
+            btn_name = "kuto_btn",
             on_event = function(form, player, element)
-                local cindex = kuto.get_index_by_name(form, "kb_cname")
+                local cindex = kuto.get_index_by_name(form, "kuto_button")
                 form[cindex] = {type = "label", x=1, y=3, label = "test button label"}
 
                 return form
@@ -32,12 +32,15 @@ ccf.astt = function(name, param)
         }),
         kuto.component.card("kuto_card", {
             pos = {1, 4},
-            image = "kuto_card_demo.png",
-            title_name = "title_name",
-            title = "test 123 this is a test to see how long this goes on for",
-            content_name = "content_name",
-            content = "test message to see how well the hypertext element line wraps bla bla",
-            label = "kb_name",
+            icon = "kuto_card_demo.png",
+            ttl_name = "title_name",
+            ttl_text = "test 123 this is a test to see how long this goes on for",
+            ctt_name = "content_name",
+            ctt_text = "test message to see how well the hypertext element line wraps bla bla",
+            btn_name = "kuto_card_btn",
+            on_event = function(form, player, element)
+                minetest.chat_send_player(player:get_player_name(), minetest.colorize("yellow", "[kuto]: test output"))
+            end
         }),
 
     }

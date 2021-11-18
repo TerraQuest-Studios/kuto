@@ -3,7 +3,7 @@ kuto.component = {}
 function kuto.component.button(name, def)
     local formspec = {
         type = "container",
-        name = def.cname,
+        name = name,
         x = def.pos[1],
         y = def.pos[2],
         {
@@ -12,8 +12,8 @@ function kuto.component.button(name, def)
             y = 0,
             w = def.size[1],
             h = def.size[2],
-            name = name,
-            label = def.label,
+            name = def.btn_name,
+            label = def.btn_text,
             on_event = def.on_event,
             props = {
                 border = false,
@@ -29,11 +29,11 @@ function kuto.component.button(name, def)
 end
 
 function kuto.component.card(name, def)
-    local title = string.sub(def.title,1,24)
-    local content = string.sub(def.content,1,60)
+    local title = string.sub(def.ttl_text,1,24)
+    local content = string.sub(def.ctt_text,1,60)
     local formspec = {
         type = "container",
-        name = def.cname,
+        name = name,
         x = def.pos[1],
         y = def.pos[2],
         {
@@ -54,7 +54,7 @@ function kuto.component.card(name, def)
             y = 0.05,
             w = 1.5,
             h = 1.5,
-            texture_name = def.image
+            texture_name = def.icon
         },
         {
             type = "image",
@@ -70,7 +70,7 @@ function kuto.component.card(name, def)
             y = 0.2,
             w = 3.9,
             h = 0.5,
-            name = def.title_name,
+            name = def.ttl_name,
             text = "<style size=20><b>"..title.."</b></style>"
         },
         {
@@ -79,7 +79,7 @@ function kuto.component.card(name, def)
             y = 0.7,
             w = 3.9,
             h = 0.8,
-            name = def.content_name,
+            name = def.ctt_name,
             text = "<normal>"..content.."</normal>"
         },
         {
@@ -88,7 +88,8 @@ function kuto.component.card(name, def)
             y = 0,
             w = 6,
             h = 1.6,
-            name = name,
+            name = def.btn_name,
+            on_event = def.on_event,
             props = {
                 border = false
             }
