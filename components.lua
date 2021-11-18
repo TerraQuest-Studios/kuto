@@ -67,7 +67,7 @@ function kuto.component.card(name, def)
         {
             type = "hypertext",
             x = 2,
-            y = 0.02,
+            y = 0.2,
             w = 3.9,
             h = 0.5,
             name = def.title_name,

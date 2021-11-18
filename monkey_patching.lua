@@ -43,22 +43,18 @@ end
 function kuto.convert_to_ast(form)
     local styles = {}
 
-    for key, val in pairs(form) do
-        if type(val) == "table" and val.props then
-            table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
-        end
-        --use recursion for this in the future for multiple level nesting
-        if type(val) == "table" and val.type and val.type:find("container") then
-            for _, cval in pairs(val) do
-                if type(cval) == "table" and cval.props then
-                    table.insert(
-                        styles,
-                        {type = "style", selectors = cval.selectors or {cval.name}, props = cval.props}
-                    )
-                end
+
+    local function rfind(fs)
+        for key, val in pairs(fs) do
+            if type(val) == "table" and val.type and val.type:find("container") then
+                rfind(val)
+            elseif type(val) == "table" and val.props then
+                table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
             end
         end
     end
+
+    rfind(form)
 
     local fs = insert_styles(form, styles)
     return fs
