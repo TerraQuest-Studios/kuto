@@ -56,6 +56,31 @@ function kuto.convert_to_ast(form)
                 rfind(val)
             elseif type(val) == "table" and val.props then
                 table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
+            elseif type(val) == "table" and val.type and val.type == "kstyle" and val.kstyles then
+                --css like styling
+                for selector, attributes in pairs(val.kstyles) do
+                    if selector:match("^#") then
+                        for attribute, value in pairs(attributes) do
+                            table.insert(
+                                styles,
+                                {type = "style", selectors = {selector:sub(2, -1)}, props = {[attribute] = value}}
+                            )
+                        end
+                    elseif selector:match("^.") then
+                        minetest.chat_send_all("todo: class detection")
+                        for elem in formspec_ast.walk(form) do
+                            if elem.class and elem.class:find(selector:sub(2, -1)) then
+                                minetest.chat_send_all(elem.class)
+                                for attribute, value in pairs(attributes) do
+                                    table.insert(
+                                        styles,
+                                        {type = "style", selectors = {elem.name}, props = {[attribute] = value}}
+                                    )
+                                end
+                            end
+                        end
+                    end
+                end
             end
         end
     end

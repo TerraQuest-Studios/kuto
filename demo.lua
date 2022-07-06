@@ -18,6 +18,25 @@ ccf.astt = function(name, param)
             y = 1,
             label = "test label",
         },
+        {
+            type = "button",
+            x = 3,
+            y = 1,
+            w = 2,
+            h = 1,
+            name = "kstyle_unique_button",
+            label = "unique kstyle",
+        },
+        {
+            type = "button",
+            x = 6,
+            y = 1,
+            w = 2,
+            h = 1,
+            name = "kstyle_class_button",
+            label = "class kstyle",
+            class = "kstyle_unique_button",
+        },
         kuto.component.button("kuto_button", {
             pos = {1, 3},
             size = {2.3, 0.9},
@@ -42,6 +61,19 @@ ccf.astt = function(name, param)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("yellow", "[kuto]: test output"))
             end
         }),
+        {
+            type = "kstyle",
+            kstyles = {
+                ["#kstyle_unique_button"] = {
+                    bgimg_hovered = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff90",
+                    bgimg_middle = "4,4",
+                },
+                [".kstyle_unique_button"] = {
+                    bgimg = "kuto_button.png^[combine:16x16^[noalpha^[colorize:#ffffff70",
+                    bgimg_middle = "4,4",
+                },
+            }
+        }
 
     }
 
