@@ -12,6 +12,10 @@ function kuto.get_index_by_name(tree, name)
     end
 end
 
+function text_to_fs_units(text, dir)
+    if dir == "w" then return (#text*0.15)+1 else return 1 end
+end
+
 --note this is terrible hard coded
 local function insert_styles(form, styles)
     local headers = {
@@ -50,6 +54,11 @@ function kuto.convert_to_ast(form)
     local styles = {}
 
     for val in formspec_ast.walk(form) do
+        if type(val) == "table" then
+            if val.w == "auto" then val.w = text_to_fs_units(val.label, "w") end
+            if val.h == "auto" then val.h = text_to_fs_units(val.label, "h") end
+        end
+
         if type(val) == "table" and val.props then
             table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
         elseif type(val) == "table" and val.type and val.type == "kstyle" and val.kstyles then
