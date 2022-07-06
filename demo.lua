@@ -33,6 +33,16 @@ ccf.astt = function(name, param)
             y = 1,
             w = 2,
             h = 1,
+            name = "kstyle_class_button_2",
+            label = "class kstyle",
+            class = "kstyle_unique_button",
+        },
+        {
+            type = "button",
+            x = 6,
+            y = 2.5,
+            w = 2,
+            h = 1,
             name = "kstyle_class_button",
             label = "class kstyle",
             class = "kstyle_unique_button",
@@ -40,7 +50,7 @@ ccf.astt = function(name, param)
         kuto.component.button("kuto_button", {
             pos = {1, 3},
             size = {2.3, 0.9},
-            btn_text = "kb_name",
+            btn_text = "click me",
             btn_name = "kuto_btn",
             on_event = function(form, player, element)
                 local cindex = kuto.get_index_by_name(form, "kuto_button")
