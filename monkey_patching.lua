@@ -49,43 +49,27 @@ end
 function kuto.convert_to_ast(form)
     local styles = {}
 
-
-    local function rfind(fs)
-        for key, val in pairs(fs) do
-            if type(val) == "table" and val.type and val.type:find("container") then
-                rfind(val)
-            elseif type(val) == "table" and val.props then
-                table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
-            elseif type(val) == "table" and val.type and val.type == "kstyle" and val.kstyles then
-                --css like styling
-                for selector, attributes in pairs(val.kstyles) do
-                    if selector:match("^#") then
-                        for attribute, value in pairs(attributes) do
-                            table.insert(
-                                styles,
-                                {type = "style", selectors = {selector:sub(2, -1)}, props = {[attribute] = value}}
-                            )
-                        end
-                    elseif selector:match("^.") then
-                        minetest.chat_send_all("todo: class detection")
-                        for elem in formspec_ast.walk(form) do
-                            if elem.class and elem.class:find(selector:sub(2, -1)) then
-                                minetest.chat_send_all(elem.class)
-                                for attribute, value in pairs(attributes) do
-                                    table.insert(
-                                        styles,
-                                        {type = "style", selectors = {elem.name}, props = {[attribute] = value}}
-                                    )
-                                end
-                            end
+    for val in formspec_ast.walk(form) do
+        if type(val) == "table" and val.props then
+            table.insert(styles, {type = "style", selectors = val.selectors or {val.name}, props = val.props})
+        elseif type(val) == "table" and val.type and val.type == "kstyle" and val.kstyles then
+            --css like styling
+            for selector, attributes in pairs(val.kstyles) do
+                if selector:match("^#") then
+                    styles[#styles+1] = {type = "style", selectors = {selector:sub(2, -1)}, props = attributes}
+                elseif selector:match("^.") then
+                    --batch up elements for one fs style element rather than be wasteful
+                    local class_elems = {}
+                    for elem in formspec_ast.walk(form) do
+                        if elem.class and elem.class:find(selector:sub(2, -1)) then
+                            class_elems[#class_elems+1] = elem.name
                         end
                     end
+                    styles[#styles+1] = {type = "style", selectors = class_elems, props = attributes}
                 end
             end
         end
     end
-
-    rfind(form)
 
     local fs = insert_styles(form, styles)
     return fs

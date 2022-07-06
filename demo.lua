@@ -45,7 +45,7 @@ ccf.astt = function(name, param)
             h = 1,
             name = "kstyle_class_button",
             label = "class kstyle",
-            class = "kstyle_unique_button",
+            class = "kstyle_unique_button unused_demo_class",
         },
         kuto.component.button("kuto_button", {
             pos = {1, 3},
