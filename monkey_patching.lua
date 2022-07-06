@@ -14,7 +14,14 @@ end
 
 --note this is terrible hard coded
 local function insert_styles(form, styles)
-    local headers = {size = true, position = true, anchor = true, no_prepend = true, real_cordinates = true}
+    local headers = {
+        size = true,
+        position = true,
+        anchor = true,
+        no_prepend = true,
+        real_cordinates = true,
+        padding=true
+    }
     local cindex = 0
     local fs = {}
 
