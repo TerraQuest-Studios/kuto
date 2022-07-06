@@ -66,7 +66,7 @@ function kuto.convert_to_ast(form)
             for selector, attributes in pairs(val.kstyles) do
                 if selector:match("^#") then
                     styles[#styles+1] = {type = "style", selectors = {selector:sub(2, -1)}, props = attributes}
-                elseif selector:match("^.") then
+                elseif selector:match("^%.") then
                     --batch up elements for one fs style element rather than be wasteful
                     local class_elems = {}
                     for elem in formspec_ast.walk(form) do
