@@ -35,6 +35,12 @@ on_event = function(form, player, element)
 end
 ```
 
+elements with that require width, height, and have a label can now set w/h to "auto"
+```lua
+w = "auto",
+h = "auto",
+```
+
 # css like styling
 this mod via a custom kstyle element allows you to add targeted styling of elements 
 in a css manor
